@@ -13,8 +13,8 @@ routes.get("/", (req, res) => {
 })
 
 //upload
-routes.post("/upload", Upload.upload);
-routes.get("/files", Upload.getListFiles);
+routes.post("/upload",authenticateToken, Upload.upload);
+// routes.get("/files", Upload.getListFiles);
 
 //article
 routes.get("/getArticle",authenticateToken, Article.getArticle);

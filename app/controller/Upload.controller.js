@@ -10,9 +10,16 @@ const upload = async (req, res) => {
     await uploadFile(req, res);
 
     if (req.file == undefined) {
-      return res.status(400).send({ message: "Please upload a file!" });
+      return res.status(400).send({ message: "Please upload a file" });
     }
 
+    const findUserId = await models.tb_user.findOne({
+      where: {
+        user_id: req.query.user_id
+      }
+    })
+
+    if (findUserId !== null) {
     const updateUserPicture = await models.tb_user.update({
       user_pic_path: "/resources/static/assets/uploads/" + req.file.originalname,
     },
@@ -21,10 +28,17 @@ const upload = async (req, res) => {
           user_id: req.query.user_id,
         }
       })
+      res.status(200).send({
+        message: "Uploaded the file successfully: " + req.file.originalname,
+      });
 
-    res.status(200).send({
-      message: "Uploaded the file successfully: " + req.file.originalname,
-    });
+    }else{
+
+      res.status(500).send({
+        message: `Could not upload the file: don't have user_id ${req.query.user_id}`,
+      });
+    }
+
   } catch (err) {
     res.status(500).send({
       message: `Could not upload the file: ${req.file.originalname}. ${err}`,
