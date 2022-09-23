@@ -1,26 +1,33 @@
-// class
+
+const fs = require("fs");
+const formidable = require('formidable');
 var initModels = require("../../models/init-models");
 const sequelize = require('../config/database');
 var models = initModels(sequelize);
-const uploadFile = require("../middleware/upload");
-const fs = require("fs");
-const baseUrl = "http://localhost:3000/static/assets/uploads/";
 
 const upload = async (req, res) => {
-  try {
-    await uploadFile(req, res);
 
-    if (req.file == undefined) {
-      return res.status(400).send({ message: "Please upload a file!" });
-    }
-    res.status(200).send({
-      message: "Uploaded the file successfully: " + req.file.originalname,
-    });
-  } catch (err) {
-    res.status(500).send({
-      message: `Could not upload the file: ${req.file.originalname}. ${err}`,
-    });
-  }
+  let form = new formidable.IncomingForm();
+  form.parse(req, async function (err, fields, file) {
+    let filepath = file.fileupload.filepath;
+    let newpath = __basedir + "/resources/static/assets/uploads/"
+    newpath += file.fileupload.originalFilename;
+
+    const updatePicture = await models.tb_user.update({
+      user_id: req.body.user_id,
+      username: req.body.username,
+      user_pic_path: "/resources/static/assets/uploads/" + file.fileupload.originalFilename,
+    },
+      {
+        where: {
+          user_id: req.body.user_id,
+        }
+      })
+
+    fs.rename(filepath,newpath,function() {
+      res.send("upload success");
+    })
+  })
 };
 
 const getListFiles = (req, res) => {
@@ -58,6 +65,8 @@ const download = (req, res) => {
     }
   });
 };
+
+
 
 module.exports = {
   upload,
