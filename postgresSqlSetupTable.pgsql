@@ -1,18 +1,13 @@
 
 DROP TABLE IF EXISTS tb_user, tb_article;
 
-
--- CREATE TABLE "tb_user_login" (
---     "login_id" SERIAL PRIMARY KEY,
---     "user_id" int,
---     "login_time" varchar,
---     "expire_time" varchar
--- );
-
 CREATE TABLE "tb_user" (
     "user_id" SERIAL PRIMARY KEY,
     "username" varchar,
     "password" varchar,
+    "age" varchar,
+    "email" varchar,
+    "phone" varchar,
     "user_pic_path" varchar
 );
 

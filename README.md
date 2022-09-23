@@ -1,8 +1,8 @@
 
-## Deployment
 
-- design database
-- run command
+npm install
+
+generate secretkey = require('crypto').randomBytes(64).toString('hex')
 
 To deploy this project run
 

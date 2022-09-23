@@ -5,7 +5,6 @@ const sequelize = require('../config/database');
 var models = initModels(sequelize);
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken')
-const fetch = require('node-fetch');
 
 
 let refreshTokens = []
@@ -25,11 +24,6 @@ const token = (req, res) => {
     res.json({ accessToken: accessToken })
   })
 };
-
-const logout = (req, res) => {
-  refreshTokens = refreshTokens.filter(token => token !== req.body.token)
-  res.sendStatus(204)
-}
 
 const login = async (req, res) => {
   console.log(req.body);
@@ -53,15 +47,22 @@ const login = async (req, res) => {
   } else {
     let data = {
       username: findUserDB.username,
+      password: findUserDB.password
     }
     const accessToken = generateAccessToken(data)
+    console.log(accessToken);
     const refreshToken = jwt.sign(data, process.env.REFRESH_TOKEN_SECRET)
     refreshTokens.push(refreshToken)
 
     res.json({ accessToken: accessToken, refreshToken: refreshToken })
-    
+
   }
 };
+
+const logout = (req, res) => {
+  refreshTokens = refreshTokens.filter(token => token !== req.body.token)
+  res.sendStatus(204)
+}
 
 const register = async (req, res) => {
   try {
@@ -87,16 +88,23 @@ const register = async (req, res) => {
 
       const genSalt = await bcrypt.genSalt();
       const hashedPassword = await (await bcrypt.hash(req.body.password, genSalt)).toString();
-      const user = { name: req.body.username, password: hashedPassword };
+      const user = { name: req.body.username, password: hashedPassword, age: req.body.age, email: req.body.email, phone: req.body.phone };
+
       const sendToDB = await models.tb_user.create(
         {
           username: user.name,
-          password: user.password
+          password: user.password,
+          age: user.age,
+          email: user.email,
+          phone: user.phone
         }
         , {
           fields: [
             'username',
-            'password'
+            'password',
+            "age",
+            "email",
+            "phone"
           ]
         });
 
@@ -108,10 +116,10 @@ const register = async (req, res) => {
 
   } catch (error) {
     res.status(500).send();
-
   }
-
 }
+
+
 
 function generateAccessToken(user) {
   return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '7d' })
