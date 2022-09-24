@@ -13,6 +13,14 @@ const getProfileUser = async (req, res) => {
             result: sendToDB
 
         })
+
+        if (sendToDB === null) {
+            return res.json({
+                status: 404,
+                message: 'Not found user'
+            })
+        }
+        
     } catch (error) {
         res.json({ status: 500, message: 'failed' })
     }
@@ -25,6 +33,13 @@ const getProfileUserFindById = async (req, res) => {
                 user_id: req.query.user_id
             }
         })
+
+        if (sendToDB === null) {
+            return res.json({
+                status: 404,
+                message: 'Not found user_id :' + req.query.user_id
+            })
+        }
 
         res.json({
             status: 200,

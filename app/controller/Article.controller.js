@@ -13,6 +13,14 @@ const getArticle = async (req, res) => {
             result: sendToDB
 
         })
+
+        if (sendToDB === null) {
+            return res.json({
+                status: 404,
+                message: 'Not found article'
+            })
+        }
+
     } catch (error) {
         res.json({ status: 500, message: 'failed' })
     }
@@ -26,6 +34,13 @@ const getArticleFindById = async (req, res) => {
                 article_id: req.query.article_id
             }
         })
+
+        if (sendToDB === null) {
+            return res.json({
+                status: 404,
+                message: 'Not found article_id :' + req.query.article_id
+            })
+        }
 
         res.json({
             status: 200,
@@ -68,7 +83,7 @@ const editArticle = async (req, res) => {
         const sendToDB = await models.tb_article.update(
             {
                 description: req.body.description
-            }, 
+            },
             {
                 where: {
                     article_id: req.body.article_id
