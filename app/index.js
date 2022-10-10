@@ -24,7 +24,7 @@ app.use(cors(corsOptions));
 app.use("/images", express.static(path.join(__dirname, 'images')));
 app.use(express.static(path.join(__dirname, 'resources')));
 
-app.use(config.prefix, routes);
+app.use("/", routes);
 
 
 app.listen(port, () => {
