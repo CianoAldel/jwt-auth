@@ -27,9 +27,6 @@ app.use(express.static(path.join(__dirname, 'resources')));
 app.use(config.prefix, routes);
 
 
-app.listen(config.port, () => {
-    console.log(`
-    Port: ${config.port}
-    Env: ${app.get('env')}
-  `);
+app.listen(process.env.PORT || 3000, () => {
+    console.log(`Server started on port ${config.port} (${config.env})`);
 });
