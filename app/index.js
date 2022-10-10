@@ -1,6 +1,6 @@
 import express from 'express';
 import routes from './routes';
-import config from './config/constants'
+const port = process.env.PORT || 3000;
 
 const path = require('path')
 
@@ -27,6 +27,6 @@ app.use(express.static(path.join(__dirname, 'resources')));
 app.use(config.prefix, routes);
 
 
-app.listen(process.env.PORT || 3000, () => {
-    console.log(`Server started on port ${config.port} (${config.env})`);
+app.listen(port, () => {
+    console.log("App is running on port " + port);
 });
