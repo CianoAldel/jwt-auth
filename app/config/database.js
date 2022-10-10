@@ -3,10 +3,10 @@ const { DATABASE_NAME, DATABASE_USER, DATABASE_PASS, DATABASE_URL } = process.en
 
 // console.log(DATABASE_NAME, DATABASE_USER, DATABASE_PASS, DATABASE_URL);
 
-const sequelize = new Sequelize("db-test", "man", "aA0840454897", {
-  host: "postgresql-88714-0.cloudclusters.net",
+const sequelize = new Sequelize("test_jwt", "postgres", "aA0840454897", {
+  host: "localhost",
   dialect: 'postgres',
-  port: '10742'
+  port: '5432'
 });
 
 module.exports = sequelize
