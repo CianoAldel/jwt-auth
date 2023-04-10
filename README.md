@@ -2,7 +2,7 @@
 
 1.npm install
 2.nodemon
-3.test api
+
 
 generate secretkey = require('crypto').randomBytes(64).toString('hex')
 generate database
