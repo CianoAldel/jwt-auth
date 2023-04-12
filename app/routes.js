@@ -13,19 +13,18 @@ routes.get("/", (req, res) => {
 })
 
 //upload
-routes.post("/upload",authenticateToken, Upload.upload);
+routes.post("/upload", authenticateToken, Upload.upload);
 // routes.get("/files", Upload.getListFiles);
 
-//article
-routes.get("/getArticle",authenticateToken, Article.getArticle);
-routes.get("/getArticleFindById",authenticateToken, Article.getArticleFindById);
-routes.post("/insertArticle",authenticateToken, Article.insertArticle);
-routes.post("/editArticle",authenticateToken, Article.editArticle);
+routes.get("/getArticle", authenticateToken, Article.getArticle);
+routes.get("/getArticleFindById", authenticateToken, Article.getArticleFindById);
+routes.post("/insertArticle", authenticateToken, Article.insertArticle);
+routes.post("/editArticle", authenticateToken, Article.editArticle);
 
 //user
-routes.get("/getProfileUser",authenticateToken, User.getProfileUser);
-routes.get("/getProfileUserFindById",authenticateToken, User.getProfileUser);
-routes.post("/editProfileUser",authenticateToken, User.editProfileUser);
+routes.get("/getProfileUser", authenticateToken, User.getProfileUser);
+routes.get("/getProfileUserFindById", authenticateToken, User.getProfileUser);
+routes.post("/editProfileUser", authenticateToken, User.editProfileUser);
 
 //Auth
 routes.post("/login", Auth.login);
